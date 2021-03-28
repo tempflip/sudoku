@@ -5,6 +5,11 @@ class Element {
 	setNum(num) {
 		this.number = num;
 	}
+
+	isEmpty() {
+		if (!this.number) return true;
+		return false;
+	}
 	
 	print() {
 		if (this.number) return this.number + ' ';
@@ -29,10 +34,24 @@ class Game {
 	setRow(row, els) {
 		for (let i = 0; i < 9; i ++ ) {
 			if (els[i]) {
-				this.grid[row][i].setNum(els[i]);
+				this.setNum(row, i, els[i]);
 			}
 		}
 
+	}
+
+	valid() {
+		console.log('Valid rows: ');
+		for (let i = 0; i < 9; i ++ ) {
+			let inRows = [];
+			for (let j = 0; j < 9; j ++ ) {
+				if (!this.grid[i][j].isEmpty() && inRows.includes(this.grid[i][j].number)) {
+					console.log('Row ' + i + ' invalid', inRows);
+					break;
+				}
+				inRows.push(this.grid[i][j].number);
+			}
+		}
 	}
 
 
@@ -67,6 +86,8 @@ g.setRow(6, [null, 6, null,       null,null, null,         2, 8,  null]);
 g.setRow(7, [null, null, null,    4, 1, 9,                  null,null, 5]);
 g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 
+g.setNum(0, 8, 5);
 console.log(g);
 
 g.print();
+g.valid();
