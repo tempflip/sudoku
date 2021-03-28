@@ -57,7 +57,15 @@ class Game {
 console.log('Hello Sudoku');
 
 let g = new Game();
-g.setRow(0, [5,3,null,null,7]);
+g.setRow(0, [5,3,null,null,          7                                 ]);
+g.setRow(1, [6,null,null,         1, 9, 5]);
+g.setRow(2, [null, 9, 8,          null, null, null,      null, 6]);
+g.setRow(3, [8, null, null,       null, 6, null,         null, null, 3]);
+g.setRow(4, [4, null, null,       8, null, 3,            null, null, 1]);
+g.setRow(5, [7, null, null,       null,2, null,          null, null, 6]);
+g.setRow(6, [null, 6, null,       null,null, null,         2, 8,  null]);
+g.setRow(7, [null, null, null,    4, 1, 9,                  null,null, 5]);
+g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 
 console.log(g);
 
