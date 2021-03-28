@@ -27,6 +27,20 @@ class Game {
 
 	}
 
+	clone() {
+		let newG = new Game();
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				newG.setNum(i, j, this.grid[i][j].number);
+			}
+		}
+		return newG;
+	}
+
+	isEmpty(row, col) {
+		return this.grid[row][col].isEmpty();
+	}
+
 	setNum(row, el, num) {
 		this.grid[row][el].setNum(num);
 	}
@@ -78,25 +92,31 @@ class Game {
 	}
 	
 
-	valid() {
-		console.log('Invalid rows: ');
+	valid(pr = true) {
+		let isValid = true;
+		if (pr) console.log('Invalid rows: ');
+		
 		for (let i = 0; i < 9; i ++ ) {
 			if (this.validRow(i) != true) {
-				console.log('invalid row: ', i);
+				if (pr) console.log('invalid row: ', i);
+				isValid = false;
 			}
 		}
-		console.log('Invalid cols: ');
+		if (pr) console.log('Invalid cols: ');
 		for (let i = 0; i < 9; i ++ ) {
 			if (this.validCol(i) != true) {
-				console.log('invalid col: ', i);
+				if (pr) console.log('invalid col: ', i);
+				isValid = false;
 			}
 		}
-		console.log('Invalid sq: ');
+		if (pr) console.log('Invalid sq: ');
 		for (let i = 0; i < 9; i ++ ) {
 			if (this.validSq(i) != true) {
-				console.log('invalid sq: ', i);
+				if (pr) console.log('invalid sq: ', i);
+				isValid = false;
 			}
 		}
+		return isValid;
 	}
 
 
@@ -135,7 +155,24 @@ g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 //g.setNum(6, 0, 6);
 //g.setNum(3, 1, 8);
 //g.setNum(6, 3, 1);
-console.log(g);
+console.log(JSON.stringify(g));
 
 g.print();
 g.valid();
+
+
+for (let row = 0; row < 9; row++) {
+	for (let col = 0; col< 9; col++) {
+		if (!g.isEmpty(row, col)) continue;
+
+		let vals = [];
+		for (let i = 1; i <= 9 ; i++) {
+			let g2 = g.clone();
+			g2.setNum(row, col, i);
+			if (g2.valid(pr=false)) {
+				vals.push(i);	
+			}
+		}
+		console.log(row, col, ' : ', vals);
+	}
+}
