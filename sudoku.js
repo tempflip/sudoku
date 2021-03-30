@@ -138,14 +138,32 @@ class Game {
 				let posNums = myClone.allPossibleNums(row, col);
 				if (posNums.length != 1) continue;
 				myClone.setNum(row, col, posNums[0]);
-				console.log('#', row, col, posNums.length, posNums[0]);
+				//console.log('#', row, col, posNums.length, posNums[0]);
 				changed = true;
 			}
 		}
-		console.log('ch', changed);
+		//console.log('ch', changed);
 		if (changed) myClone = myClone.getFilledClone();
 		return myClone;
 	}
+
+	getNext() {
+		let clones = [];
+		for (let row = 0; row < 9; row++) {
+			for (let col = 0; col< 9; col++) {
+				if (!this.isEmpty(row, col)) continue;
+				this.allPossibleNums(row, col).forEach(num => {
+					let myClone = this.clone();
+					console.log('>>', row, col, num);
+					myClone.setNum(row, col, num);
+					myClone = myClone.getFilledClone();
+					clones.push(myClone);
+				});
+			}
+		}
+		return clones;
+	}
+
 
 	print() {
 		let i = 0;
@@ -176,7 +194,7 @@ g.setRow(4, [4, null, null,       8, null, 3,            null, null, 1]);
 g.setRow(5, [7, null, null,       null,2, null,          null, null, 6]);
 g.setRow(6, [null, 6, null,       null,null, null,         2, 8,  null]);
 g.setRow(7, [null, null, null,    4, 1, 9,                  null,null, 5]);
-g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
+//g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 
 //g.setNum(0, 8, 5);
 //g.setNum(6, 0, 6);
@@ -187,8 +205,18 @@ g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 //g = new Game();
 //g.setRow(2 ,[1,2,3,4,5,6,7,8]);
 g.print();
-c = g.getFilledClone();
-c.print();
+g = g.getFilledClone();
+g.print();
+console.log('===========================');
+g.getNext().forEach(gm => {
+	console.log('..........................');
+	gm.print();
+	console.log(gm.valid());
+});
+
+//c = g.getFilledClone();
+//console.log('******************************************');
+//c.print();
 /*
 for (let row = 0; row < 9; row++) {
 	for (let col = 0; col< 9; col++) {
