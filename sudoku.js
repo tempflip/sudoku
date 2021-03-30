@@ -92,7 +92,7 @@ class Game {
 	}
 	
 
-	valid(pr = true) {
+	valid(pr = false) {
 		let isValid = true;
 		if (pr) console.log('Invalid rows: ');
 		
@@ -119,6 +119,33 @@ class Game {
 		return isValid;
 	}
 
+	allPossibleNums(row, col) {
+		let posNums = [];
+		for (let num = 1; num <= 9; num++) {
+			let g = this.clone();
+			g.setNum(row, col, num);
+			if (g.valid()) posNums.push(num);
+		}
+		return posNums;
+	}
+
+	getFilledClone() {
+		let changed = false;
+		let myClone = this.clone();
+		for (let row = 0; row < 9; row++) {
+			for (let col = 0; col< 9; col++) {
+				if (!myClone.isEmpty(row, col)) continue;
+				let posNums = myClone.allPossibleNums(row, col);
+				if (posNums.length != 1) continue;
+				myClone.setNum(row, col, posNums[0]);
+				console.log('#', row, col, posNums.length, posNums[0]);
+				changed = true;
+			}
+		}
+		console.log('ch', changed);
+		if (changed) myClone = myClone.getFilledClone();
+		return myClone;
+	}
 
 	print() {
 		let i = 0;
@@ -155,24 +182,20 @@ g.setRow(8, [null, null, null,    null, 8, null,           null, 7, 9]);
 //g.setNum(6, 0, 6);
 //g.setNum(3, 1, 8);
 //g.setNum(6, 3, 1);
-console.log(JSON.stringify(g));
+//console.log(JSON.stringify(g));
 
+//g = new Game();
+//g.setRow(2 ,[1,2,3,4,5,6,7,8]);
 g.print();
-g.valid();
-
-
+c = g.getFilledClone();
+c.print();
+/*
 for (let row = 0; row < 9; row++) {
 	for (let col = 0; col< 9; col++) {
 		if (!g.isEmpty(row, col)) continue;
-
-		let vals = [];
-		for (let i = 1; i <= 9 ; i++) {
-			let g2 = g.clone();
-			g2.setNum(row, col, i);
-			if (g2.valid(pr=false)) {
-				vals.push(i);	
-			}
-		}
-		console.log(row, col, ' : ', vals);
+		console.log(row, col, ' : ', g.allPossibleNums(row, col));
 	}
 }
+let cl = g.getFilledClone();
+cl.print();
+*/
